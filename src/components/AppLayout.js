@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import "../css/AppLayout.css";
+import axios from "axios";
 
 //이미지
 import appImg from "../img/appimg.svg";
@@ -14,8 +15,19 @@ import go from "../img/go.png";
 import menu from "../img/menu.svg";
 
 const AppLayout = ({ children }) => {
+  const [searchTarget, setSearchTarget] = useState()
 
-    
+
+
+    //검색 로직
+    const search = async () => {
+     axios.get(`http://13.125.112.232/api/market/:${searchTarget}`,{
+      params: {
+        query: searchTarget
+      }
+     })
+
+    }
 
   return (
     <>
@@ -58,11 +70,12 @@ const AppLayout = ({ children }) => {
                   <input
                     type="search"
                     placeholder="상품명,지역명,@상점명 입력"
+                    onChange={(e)=>{setSearchTarget(e.target.value)}}
                   />
                   <p className="btnClear">
                     <img src={x} alt="" />
                   </p>
-                  <button className="searchBtn">
+                  <button className="searchBtn" onClick={search}>
                     <img src={searchBtn} alt="" />
                   </button>
                 </div>
@@ -72,7 +85,7 @@ const AppLayout = ({ children }) => {
                   <img src={headerIcon1} alt="" />
                   판매하기
                 </a>
-                <a href="/">
+                <a href="/mypage">
                   <img src={headerIcon2} alt="" />
                   내상점
                 </a>

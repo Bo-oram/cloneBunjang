@@ -1,23 +1,24 @@
 import React, { useRef, useEffect, useState } from "react";
+import {useSelector, useDispatch} from "react-redux"
 import homeCss from "../css/Home.css";
 import axios from "axios";
-
 import prevBtn from "../img/prev.png";
 import nextBtn from "../img/next.png";
 import subBn from "../img/subBn.png";
 
 const Home = () => {
-  // const swiperRef = useRef();
+  let allPrd = useSelector((state) => state.Product_.prdItem.findAllitem)
+  let prdlist = allPrd === undefined ? [] :allPrd
+
+ //배너 관련!!!!!!!!!
   const bannerPosition = useRef();
   const leftBtn = useRef();
   const rightBtn = useRef();
   const [img, setImg] = useState([]);
   const [left, setLeft] = useState(0);
-  const [prdList, setPrdList] = useState([]);
-  console.log(prdList);
-
-
-
+  
+  
+  
   //메인배너 이미지 가져오기
   const imageData = async () => {
     const response = await axios
@@ -27,19 +28,10 @@ const Home = () => {
       });
   };
 
-  //t상품목록 가져오기
-  const prdAllList = async () => {
-    const response = await axios
-      .get("http://localhost:5001/market")
-      .then((response) => {
-        setPrdList(response.data);
-      });
-  };
-
+ 
   //api데이터 가져오기 실행
   useEffect(() => {
     imageData();
-    prdAllList();
   }, []);
 
   //배너아이템 포지션 제어하기
@@ -97,11 +89,11 @@ const Home = () => {
       <div className="prdListContainer">
         <div className="title">오늘의 상품 추천</div>
         <div className="prdContent">
-          {prdList.map((p, idx) => {
+          {/* {prdlist.map((p, idx) => {
             return (
-              <div className="item">
+              <div className="item" key={idx}>
                 <div className="thumb">
-                  <img src={p.imageUrl} alt="" />
+                  <img src={p.ImageUrl} alt="" />
                 </div>
                 <div className="prdInfo">
                   <p className="prdTitle">
@@ -111,7 +103,7 @@ const Home = () => {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>
