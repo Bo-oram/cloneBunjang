@@ -105,7 +105,7 @@ const Home = () => {
                 </div>
                 <div className="prdInfo">
                   <p className="prdTitle">
-                    방탄 프루프 사웨 럭드 proof 정국 태형 지민 석진
+                  {p.title}
                   </p>
                   <p className="price">{p.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}<span>원</span></p>
                 </div>

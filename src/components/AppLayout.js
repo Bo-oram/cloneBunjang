@@ -68,7 +68,7 @@ const AppLayout = ({ children }) => {
                 </div>
               </div>
               <div className="myMenu">
-                <a href="/">
+                <a href="/Product/New">
                   <img src={headerIcon1} alt="" />
                   판매하기
                 </a>
