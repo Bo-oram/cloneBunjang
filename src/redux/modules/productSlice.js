@@ -7,7 +7,7 @@ const initialState = {
 
   //상품목록 가져오기  
   export const prdAll_list = createAsyncThunk(
-    'prdLest/prdAllList',
+    'prdList/prdAllList',
     async() => {
         const response = await axios.get('http://13.125.112.232/api/market/list');
         return response.data

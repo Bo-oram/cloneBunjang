@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from "react-redux"
 
 
 const Search = () => {
-
-    const navigate = useNavigate()
     const parm = useParams()
     const dispatch = useDispatch()
     const searchItem_list = useSelector((state) => state.searchSV.list);

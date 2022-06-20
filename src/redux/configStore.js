@@ -10,9 +10,8 @@
 
 
 import Product_ from "./modules/productSlice";
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-
 import userInfo from "../redux/modules/userInfo"
 import posting from "../redux/modules/posting"
 import searchSV from "./modules/searchSV"

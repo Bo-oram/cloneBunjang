@@ -18,6 +18,8 @@ const Signup = ({ loginClose }) => {
   const [userprofileUrl, setUserprofileUrl] = useState("");
   const [imageSrc, setImageSrc] = useState("");
 
+  const reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+
   const encodeFileToBase64 = (fileBlob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -51,18 +53,24 @@ const Signup = ({ loginClose }) => {
     if (location === "signIn") {
       return setLocation("signup");
     } else if (location === "signup") {
-      setTimeout(async () => {
-        console.log("회원가입 요청");
-        await axios
-          .post("http://13.125.112.232/api/user/signup", userInfo)
-          .then((Response) => {
-            console.log(Response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        console.log(userInfo);
-      }, 2000);
+      if (!reg_email.test(email)){
+        return alert('이메일 형식을 지켜주세요!')
+      }else if(!(password === confirmpassword)){
+        return alert('비밀번호가 일치하지 않아요!')
+      }else{
+        setTimeout(async () => {
+          console.log("회원가입 요청");
+          await axios
+            .post("http://13.125.112.232/api/user/signup", userInfo)
+            .then((Response) => {
+              console.log(Response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          console.log(userInfo);
+        }, 2000);
+      }
     }
   }
 
@@ -83,12 +91,11 @@ const Signup = ({ loginClose }) => {
           // { 'Content-Type': 'application/json'}
         )
         .then((response) => {
-          localStorage.setItem( "userToken",response.data.token);
-          window.location.replace('/')
+          localStorage.setItem("userToken", response.data.token);
+          window.location.replace("/");
           // if (response.data.result) {
           //   sessionStorage.setItem("email");
           // }
-          
         });
     }
   }

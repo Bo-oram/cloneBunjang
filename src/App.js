@@ -9,6 +9,7 @@ import Mypage from "./components/products"
 import New from "./pages/New";
 import Home from "./pages/Home";
 import Search from "./components/search";
+import { loginCheck } from "./redux/modules/userInfo";
 
 function App() {
   const dispatch = useDispatch()
@@ -17,15 +18,16 @@ function App() {
     //api데이터 가져오기 실행
     useEffect(() => {
       dispatch(prdAll_list())
-    }, []);
+    }, [dispatch]);
 
     useEffect(()=>{
       if(localStorage.getItem('userToken')){
-        setIsLogin(true)
+        setIsLogin(true);
+        dispatch(loginCheck());
       }else{
-        setIsLogin(false)
+        setIsLogin(false);
       }   
-    },[isLogin])
+    },[dispatch, isLogin])
   
  
 

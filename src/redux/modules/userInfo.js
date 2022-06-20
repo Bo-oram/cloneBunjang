@@ -49,6 +49,20 @@ export const changeComment = (info) => {
   }
 }
 
+export const loginCheck = () => {
+  let token = localStorage.getItem("userToken");
+  return async function (dispatch) {
+    await axios.get("http://13.125.112.232/api/user/login/me",{
+      headers: {
+        Authorization: 'Bearer ' + token 
+      }
+     } ).then((response) => {
+      console.log(response);
+    //어떤 스테이트 남길지 의논
+    })
+  }
+}
+
 
 
 //리듀서
