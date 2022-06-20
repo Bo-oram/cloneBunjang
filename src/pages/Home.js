@@ -7,8 +7,9 @@ import nextBtn from "../img/next.png";
 import subBn from "../img/subBn.png";
 
 const Home = () => {
-  let allPrd = useSelector((state) => state.Product_.prdItem.findAllitem)
+  let allPrd = useSelector((state) => state.Product_.prdItem.Items)
   let prdlist = allPrd === undefined ? [] :allPrd
+  console.log(prdlist)
 
  //배너 관련!!!!!!!!!
   const bannerPosition = useRef();
@@ -89,7 +90,7 @@ const Home = () => {
       <div className="prdListContainer">
         <div className="title">오늘의 상품 추천</div>
         <div className="prdContent">
-          {/* {prdlist.map((p, idx) => {
+          {prdlist.map((p, idx) => {
             return (
               <div className="item" key={idx}>
                 <div className="thumb">
@@ -103,7 +104,7 @@ const Home = () => {
                 </div>
               </div>
             );
-          })} */}
+          })}
         </div>
       </div>
     </div>

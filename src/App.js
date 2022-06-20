@@ -1,12 +1,13 @@
 import React,{useState, useEffect} from "react";
 import AppLayout from "./components/AppLayout";
-import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Product from "./pages/Product";
-import New from "./pages/New";
 import {useDispatch} from "react-redux"
 import {prdAll_list} from "./redux/modules/productSlice"
+
 import Mypage from "./components/products"
+import New from "./pages/New";
+import Home from "./pages/Home";
 
 function App() {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function App() {
   return (
     <AppLayout>
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home />}/>        
         <Route path="/mypage/*"  element={<Mypage />}/>
         <Route path="/Product" element={<Product />}>
           <Route path="new" element={<New />} />

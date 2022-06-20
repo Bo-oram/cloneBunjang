@@ -1,8 +1,9 @@
 body{font-family: 'Noto Sans KR', sans-serif !important;}
-button,p,ul,li,pre,h5 { list-style: none; margin: 0; padding: 0;    border: none;    background-color: #fff;}
+button,p,ul,li,pre,h5,h2 { list-style: none; margin: 0; padding: 0;    border: none;  }
 a{text-decoration: none;}
 .wrap {
     min-height: 1000px;
+    position: relative;
 
 }
 
@@ -33,7 +34,7 @@ a{text-decoration: none;}
     margin-right: 5px;
 }
 
-.miniMenu a {
+.miniMenu p {
     text-decoration: none;
     color: #666;
     font-size: 13px;
@@ -69,6 +70,7 @@ header .headerContainer {
 .headerContent .logo {
     margin-right: 100px;
     width: 136px;
+    cursor: pointer;
 }
 
 .headerContent .logo .img {
@@ -128,6 +130,7 @@ input::-webkit-search-results-decoration {
 
 .searchBtn{
     width: 16px;
+    background-color: #00000000;
 }
 .searchBtn img{
     width: 100%;
@@ -139,7 +142,7 @@ input::-webkit-search-results-decoration {
        
 
 }
-.myMenu a{
+.myMenu p{
     display: flex;
     position: relative;
     align-items: center;
@@ -147,7 +150,7 @@ input::-webkit-search-results-decoration {
     font-size: 14px;
     color:#212121;
 }
-.myMenu a:not(:last-child)::after{
+.myMenu p:not(:last-child)::after{
     content: "";
     width: 1px;
     height: 10px;
@@ -219,7 +222,7 @@ input::-webkit-search-results-decoration {
     padding-left:0px;
 }
 
-.buttomMenu ul li a {
+.buttomMenu ul li p {
     color:#333;
 }
 

@@ -9,7 +9,7 @@ const initialState = {
   export const prdAll_list = createAsyncThunk(
     'prdLest/prdAllList',
     async() => {
-        const response = await axios.get('http://13.125.112.232/api/market');
+        const response = await axios.get('http://13.125.112.232/api/market/list');
         return response.data
     }
   )

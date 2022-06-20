@@ -1,6 +1,8 @@
-import React, {useState} from "react";
-import "../css/AppLayout.css";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import "../css/AppLayout.css";
 
 //이미지
 import appImg from "../img/appimg.svg";
@@ -14,20 +16,37 @@ import x from "../img/x.png";
 import go from "../img/go.png";
 import menu from "../img/menu.svg";
 
+//컨포넌트
+import Signup from "./Signup";
+
 const AppLayout = ({ children }) => {
-  const [searchTarget, setSearchTarget] = useState()
+  const navigate = useNavigate();
+  const [tryLogin, setTryLogin] = useState(false);
+  const [searchTarget, setSearchTarget] = useState("");
+  let searchTargetRef = useRef(null);
 
-
-
-    //검색 로직
-    const search = async () => {
-     axios.get(`http://13.125.112.232/api/market/:${searchTarget}`,{
+  //검색 로직
+  const search = async () => {
+    axios.get(`http://13.125.112.232/api/market/:${searchTarget}`, {
       params: {
-        query: searchTarget
-      }
-     })
+        query: searchTarget,
+      },
+    });
+  };
 
-    }
+  //검색창 클리어
+  const searchBarClear = () => {
+    searchTargetRef.current.value = "";
+  };
+
+  //로그인 모달 열기
+  const loginOpen = () => {
+    setTryLogin(true);
+  };
+  //로그인 모달 닫기
+  const loginClose = () => {
+    setTryLogin(false);
+  };
 
   return (
     <>
@@ -35,19 +54,19 @@ const AppLayout = ({ children }) => {
         <div className="miniMenuBar">
           <div className="miniMenu">
             <div className="leftMenu">
-              <a href="/">
+              <p>
                 <img src={appImg} alt="app" />
                 앱다온로드
-              </a>
-              <a href="/">
+              </p>
+              <p>
                 <img src={startImg} alt="star" />
                 즐겨찾기
-              </a>
+              </p>
             </div>
             <div className="rightMenu">
               <div className="login">
-                <a href="/">로그인/회원가입</a>
-                <a href="/">내상점</a>
+                <p onClick={loginOpen}>로그인/회원가입</p>
+                <p>내상점</p>
               </div>
               <div className="logout" style={{ display: "none" }}>
                 <p>로그아웃</p>
@@ -60,39 +79,58 @@ const AppLayout = ({ children }) => {
         <header id="header">
           <div className="headerContainer">
             <div className="headerContent">
-              <div className="logo">
-                <a href="/">
+              <div
+                className="logo"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                <p>
                   <img src={logo} alt="" />
-                </a>
+                </p>
               </div>
               <div className="searchBar">
                 <div className="searchBarCon">
                   <input
                     type="search"
                     placeholder="상품명,지역명,@상점명 입력"
-                    onChange={(e)=>{setSearchTarget(e.target.value)}}
+                    ref={searchTargetRef}
+                    onChange={(e) => {
+                      setSearchTarget(e.target.value);
+                    }}
                   />
-                  <p className="btnClear">
-                    <img src={x} alt="" />
-                  </p>
+          
+                    <p className="btnClear" onClick={searchBarClear}>
+                      <img src={x} alt="" />
+                    </p>
+                  
+
                   <button className="searchBtn" onClick={search}>
                     <img src={searchBtn} alt="" />
                   </button>
                 </div>
               </div>
               <div className="myMenu">
-                <a href="/Product/New">
+                <p
+                  onClick={() => {
+                    navigate("/Product");
+                  }}
+                >
                   <img src={headerIcon1} alt="" />
                   판매하기
-                </a>
-                <a href="/mypage">
+                </p>
+                <p
+                  onClick={() => {
+                    navigate("/mypage/*");
+                  }}
+                >
                   <img src={headerIcon2} alt="" />
                   내상점
-                </a>
-                <a href="/" className="last">
+                </p>
+                <p className="last">
                   <img src={headerIcon3} alt="" />
                   번개톡
-                </a>
+                </p>
               </div>
             </div>
             <div className="catagory">
@@ -110,27 +148,27 @@ const AppLayout = ({ children }) => {
           <div className="buttomMenu">
             <ul>
               <li>
-                <a href="/">회사소개</a>
+                <p>회사소개</p>
               </li>
               <li>
-                <a href="/">이용약관</a>
+                <p>이용약관</p>
               </li>
               <li>
-                <a href="/">운영정책</a>
+                <p>운영정책</p>
               </li>
               <li>
-                <a href="/">
+                <p>
                   <b>개인정보처리방침</b>
-                </a>
+                </p>
               </li>
               <li>
-                <a href="/">광고운영정책</a>
+                <p>광고운영정책</p>
               </li>
               <li>
-                <a href="/">청소년보호정책</a>
+                <p>청소년보호정책</p>
               </li>
               <li>
-                <a href="/">위치기반서비스 이용약관</a>
+                <p>위치기반서비스 이용약관</p>
               </li>
             </ul>
           </div>
@@ -182,7 +220,7 @@ const AppLayout = ({ children }) => {
             <div className="customBox">
               <h5>고객센터</h5>
               <strong className="PhoneNumber">1670-2910</strong>
-              <p  className="Paragraph">
+              <p className="Paragraph">
                 운영시간 9시 - 18시 (주말/공휴일 휴무, 점심시간 13시 - 14시)
                 <br />
                 <span>
@@ -206,6 +244,7 @@ const AppLayout = ({ children }) => {
             </div>
           </div>
         </footer>
+        {tryLogin === true ? <Signup loginClose={loginClose} /> : null}
       </div>
     </>
   );
