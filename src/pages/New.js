@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import {useNavigate} from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { postUpload } from "../redux/modules/posting";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -7,6 +8,7 @@ import styled from "styled-components";
 import "../css/New.css";
 const New = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const title = React.useRef(null);
   const price = React.useRef(null);
@@ -53,7 +55,7 @@ const New = () => {
   };
 
   const addPost = () => {
-    window.setTimeout(() => {
+    window.setTimeout(  () => {
       dispatch(
         postUpload({
           imageUrl: file_link_ref.current.url,

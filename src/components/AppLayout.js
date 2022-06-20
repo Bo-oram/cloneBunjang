@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -21,9 +21,21 @@ import Signup from "./Signup";
 
 const AppLayout = ({ children }) => {
   const navigate = useNavigate();
+  const searchItem = React.useRef(null);
+
   const [tryLogin, setTryLogin] = useState(false);
   const [searchTarget, setSearchTarget] = useState("");
   let searchTargetRef = useRef(null);
+  const [isLogin, setIsLogin] = useState("")
+  
+
+  useEffect(()=>{
+    if(localStorage.getItem('userToken')){
+      setIsLogin(true)
+    }else{
+      setIsLogin(false)
+    }   
+  },[isLogin])
 
   //검색 로직
   const search = async () => {
@@ -45,8 +57,17 @@ const AppLayout = ({ children }) => {
   };
   //로그인 모달 닫기
   const loginClose = () => {
-    setTryLogin(false);
+    setTryLogin(false);    
   };
+  //판매하기
+  const test=()=>{
+    if(isLogin === true){
+      navigate("/Product")
+    }else if(isLogin === false){
+      alert("로그인이 필요해요!"); setTryLogin(true)
+    }
+    
+  }
 
   return (
     <>
@@ -64,15 +85,21 @@ const AppLayout = ({ children }) => {
               </p>
             </div>
             <div className="rightMenu">
-              <div className="login">
-                <p onClick={loginOpen}>로그인/회원가입</p>
-                <p>내상점</p>
-              </div>
-              <div className="logout" style={{ display: "none" }}>
-                <p>로그아웃</p>
-                <p>알림</p>
-                <p>내 상점</p>
-              </div>
+              {isLogin === true ? (
+                <div className="logout">
+                  <p onClick={()=>{
+                    localStorage.removeItem("userToken");
+                    window.location.replace('/')
+                  }}>로그아웃</p>
+                  <p>알림</p>
+                  <p>내 상점</p>
+                </div>
+              ) : (
+                <div className="login">
+                  <p onClick={loginOpen}>로그인/회원가입</p>
+                  <p>내상점</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -94,27 +121,25 @@ const AppLayout = ({ children }) => {
                   <input
                     type="search"
                     placeholder="상품명,지역명,@상점명 입력"
-                    ref={searchTargetRef}
+                    ref={searchItem}
                     onChange={(e) => {
                       setSearchTarget(e.target.value);
                     }}
                   />
-          
-                    <p className="btnClear" onClick={searchBarClear}>
-                      <img src={x} alt="" />
-                    </p>
-                  
 
-                  <button className="searchBtn" onClick={search}>
+                  <p className="btnClear" onClick={searchBarClear}>
+                    <img src={x} alt="" />
+                  </p>
+
+                  <button className="searchBtn" onClick={()=>{
+                    navigate(`/search/${searchItem.current.value}`);}}>
                     <img src={searchBtn} alt="" />
                   </button>
                 </div>
               </div>
               <div className="myMenu">
                 <p
-                  onClick={() => {
-                    navigate("/Product");
-                  }}
+                  onClick={test}
                 >
                   <img src={headerIcon1} alt="" />
                   판매하기

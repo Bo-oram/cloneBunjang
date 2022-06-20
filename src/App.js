@@ -8,14 +8,25 @@ import {prdAll_list} from "./redux/modules/productSlice"
 import Mypage from "./components/products"
 import New from "./pages/New";
 import Home from "./pages/Home";
+import Search from "./components/search";
 
 function App() {
   const dispatch = useDispatch()
+  const [isLogin, setIsLogin] = useState("")
   
     //api데이터 가져오기 실행
     useEffect(() => {
       dispatch(prdAll_list())
     }, []);
+
+    useEffect(()=>{
+      if(localStorage.getItem('userToken')){
+        setIsLogin(true)
+      }else{
+        setIsLogin(false)
+      }   
+    },[isLogin])
+  
  
 
   return (
@@ -23,6 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>        
         <Route path="/mypage/*"  element={<Mypage />}/>
+        <Route path="/search/:text/*"  element={<Search />}/>
         <Route path="/Product" element={<Product />}>
           <Route path="new" element={<New />} />
         </Route>

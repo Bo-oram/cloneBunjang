@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { storage } from "../shard/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "../css/Signup.css";
 import appImg from "../img/appimg.svg";
 
@@ -7,34 +9,61 @@ const Signup = ({ loginClose }) => {
   const [location, setLocation] = useState("signIn");
   const nickRef = useRef(null);
   const emailRef = useRef(null);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [nickname, setNickname] = useState();
-  const [confirmpassword, setConfirmpassword] = useState();
-  const [userporfilUrl, setUserporfilUrl] = useState();
+  const file_link_ref = useRef("");
+  const img = useRef(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+  const [userprofileUrl, setUserprofileUrl] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
 
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImageSrc(reader.result);
+        resolve();
+      };
+    });
+  };
+  const fileUp = async () => {
+    const uploadfile = await uploadBytes(
+      img === null ? null : ref(storage, `images/${img.current.files[0].name}`),
+      img.current.files[0]
+    );
+    const file_url = await getDownloadURL(uploadfile.ref);
+    file_link_ref.current = { url: file_url };
+    console.log(file_link_ref.current.url);
+  };
+
+  //회원가입 요청 로직
   const userInfo = {
     email: email,
     password: password,
     nickname: nickname,
     confirmpassword: confirmpassword,
-    userporfilUrl: userporfilUrl,
+    userprofileUrl: file_link_ref.current.url,
   };
-  
-  //회원가입 요청 로직
-  async function userRegister() {
+
+  function userRegister() {
     if (location === "signIn") {
-      setLocation("signup");
+      return setLocation("signup");
     } else if (location === "signup") {
-      console.log("회원가입 요청");
-      await axios
-        .post("http://13.125.112.232/api/user/signup", userInfo)
-        .then((Response)=>{console.log(Response)})
-        .catch(function (error) {
-          console.log(error);
-        });
+      setTimeout(async () => {
+        console.log("회원가입 요청");
+        await axios
+          .post("http://13.125.112.232/api/user/signup", userInfo)
+          .then((Response) => {
+            console.log(Response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        console.log(userInfo);
+      }, 2000);
     }
-    console.log(userInfo);
   }
 
   //로그인 요청 로직
@@ -42,8 +71,25 @@ const Signup = ({ loginClose }) => {
     if (location === "signup") {
       setLocation("signIn");
     } else if (location === "signIn") {
-      console.log("로그인 요청");
-      //로그인로직
+      console.log("로그인 요청!");
+      await axios
+        .post(
+          "http://13.125.112.232/api/user/login",
+          {
+            email: email,
+            password: password,
+          }
+          // { withCredentials: true },
+          // { 'Content-Type': 'application/json'}
+        )
+        .then((response) => {
+          localStorage.setItem( "userToken",response.data.token);
+          window.location.replace('/')
+          // if (response.data.result) {
+          //   sessionStorage.setItem("email");
+          // }
+          
+        });
     }
   }
 
@@ -110,11 +156,13 @@ const Signup = ({ loginClose }) => {
                   />
                 </label>
                 <label htmlFor="">
-                  <textarea
-                    placeholder="간단한 소개 부탁드려요 :)"
+                  <input
+                    type="file"
                     onChange={(e) => {
-                      setUserporfilUrl(e.target.value);
+                      encodeFileToBase64(e.target.files[0]);
                     }}
+                    accept="image/jpg, image/jpeg, image/png"
+                    ref={img}
                   />
                 </label>
               </>
@@ -124,6 +172,7 @@ const Signup = ({ loginClose }) => {
               <p
                 className={`${location === "signup" ? "on" : "off"}`}
                 onClick={() => {
+                  fileUp();
                   userRegister();
                 }}
               >
