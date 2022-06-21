@@ -54,7 +54,9 @@ const Signup = ({ loginClose }) => {
     if (location === "signIn") {
       return setLocation("signup");
     } else if (location === "signup") {
-      if (!reg_email.test(email)){
+      if(email === "" || password === "" || nickname === "" || nickname === "" || confirmpassword === "" || userprofileUrl === ""){
+        alert('모두 입력해주세요')
+      }else if (!reg_email.test(email)){
         return alert('이메일 형식을 지켜주세요!')
       }else if(password !== confirmpassword){
         return alert('비밀번호가 일치하지 않아요!')
@@ -81,7 +83,6 @@ const Signup = ({ loginClose }) => {
     if (location === "signup") {
       setLocation("signIn");
     } else if (location === "signIn") {
-      console.log("로그인 요청!");
       await axios
         .post(
           "http://13.125.112.232/api/user/login",
@@ -93,6 +94,10 @@ const Signup = ({ loginClose }) => {
         .then((response) => {
           localStorage.setItem("userToken", response.data.token);
           window.location.replace("/");
+        })
+        .catch(function (error) {
+          let eMsg = error.response.data.errorMessage
+          alert(eMsg)             
         });
     }
   }
