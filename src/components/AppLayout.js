@@ -22,7 +22,6 @@ import Signup from "./Signup";
 const AppLayout = ({ children }) => {
   const navigate = useNavigate();
   const searchItem = React.useRef(null);
-
   const [tryLogin, setTryLogin] = useState(false);
   const [searchTarget, setSearchTarget] = useState("");
   const [isLogin, setIsLogin] = useState("");
@@ -35,14 +34,6 @@ const AppLayout = ({ children }) => {
     }
   }, [isLogin]);
 
-  //검색 로직
-  const search = async () => {
-    axios.get(`http://13.125.112.232/api/market/:${searchTarget}`, {
-      params: {
-        query: searchTarget,
-      },
-    });
-  };
 
   //검색창 클리어
   const searchBarClear = () => {
@@ -57,8 +48,12 @@ const AppLayout = ({ children }) => {
   const loginClose = () => {
     setTryLogin(false);
   };
+  //로그인 
+   const login = () => {
+    setIsLogin(true)
+  }
   //판매하기
-  const test = () => {
+  const selling = () => {
     if (isLogin === true) {
       navigate("/Product");
     } else if (isLogin === false) {
@@ -66,6 +61,53 @@ const AppLayout = ({ children }) => {
       setTryLogin(true);
     }
   };
+
+  //마이숍들어가기
+  const myStore = () => {
+    if (isLogin === true) {
+      navigate("/mypage/*");
+    } else if (isLogin === false) {
+      alert("로그인이 필요해요!");
+      setTryLogin(true);
+    }
+  };
+  //번개톡
+  const talk = () => {
+    if (isLogin === true) {
+      navigate();
+    } else if (isLogin === false) {
+      alert("로그인이 필요해요!");
+      setTryLogin(true);
+    }
+  };
+
+  const [scrollY, setScrollY] = useState(0)
+  const [scrollActive, setScrollActive] = useState(false)
+
+  function scrollEvent() {
+    if(scrollY > 41){
+      setScrollY(window.scrollY);
+      setScrollActive(true)
+    }else {
+      setScrollY(window.scrollY)
+      setScrollActive(false)
+    }
+  }
+
+  useEffect(()=>{
+    function scrollListener(){
+      window.addEventListener("scroll",scrollEvent)
+    }
+    scrollListener()
+    return () => {
+      window.removeEventListener("scroll", scrollEvent)
+    }
+  })
+
+
+//41
+
+
 
   return (
     <>
@@ -88,7 +130,7 @@ const AppLayout = ({ children }) => {
                   <p
                     onClick={() => {
                       localStorage.removeItem("userToken");
-                      window.location.replace("/");
+                      setIsLogin(false)
                     }}
                   >
                     로그아웃
@@ -105,7 +147,8 @@ const AppLayout = ({ children }) => {
             </div>
           </div>
         </div>
-        <header id="header">
+        <header>
+        <div id="header" className={scrollActive ? "fixed" : null}>
           <div className="headerContainer">
             <div className="headerContent">
               <div
@@ -148,14 +191,12 @@ const AppLayout = ({ children }) => {
                 </div>
               </div>
               <div className="myMenu">
-                <p onClick={test}>
+                <p onClick={selling}>
                   <img src={headerIcon1} alt="" />
                   판매하기
                 </p>
                 <p
-                  onClick={() => {
-                    navigate("/mypage/*");
-                  }}
+                  onClick={myStore}
                 >
                   <img src={headerIcon2} alt="" />
                   내상점
@@ -170,12 +211,14 @@ const AppLayout = ({ children }) => {
               <button className="menu">
                 <img src={menu} alt="" />
               </button>
-              <p className="myStore">
+              <p className="myStore" onClick={myStore}>
                 번개장터 판매자센터 <img src={go} alt="" />
               </p>
             </div>
           </div>
+        </div>
         </header>
+        
         <div>{children}</div>
         <footer>
           <div className="buttomMenu">
@@ -277,7 +320,7 @@ const AppLayout = ({ children }) => {
             </div>
           </div>
         </footer>
-        {tryLogin === true ? <Signup loginClose={loginClose} /> : null}
+        {tryLogin === true ? <Signup loginClose={loginClose} login={login} /> : null}
       </div>
     </>
   );

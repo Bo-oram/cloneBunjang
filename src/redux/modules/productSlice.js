@@ -20,6 +20,9 @@ export const prdListSlice = createSlice({
     reducers: {
         listLoad : (state, action) => {
             state.data = action.payload
+        },
+        listUpdate :(state, action) => {
+            state.data.push(action.payload) 
         }
     },
     extraReducers: {
@@ -36,6 +39,6 @@ export const prdListSlice = createSlice({
 })
 
 
-export const {listLoad} = prdListSlice.actions
+export const {listLoad, listUpdate} = prdListSlice.actions
 export default prdListSlice.reducer
 

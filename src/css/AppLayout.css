@@ -54,6 +54,16 @@ a{text-decoration: none;}
 header {
     border-bottom: 1px solid rgb(238, 238, 238);
 }
+header.fixed{
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+    width: 100%;
+    box-shadow: 1;
+
+}
 
 header .headerContainer {
     width: 1024px;
@@ -150,6 +160,7 @@ input::-webkit-search-results-decoration {
     margin-left:30px;
     font-size: 14px;
     color:#212121;
+    cursor: pointer;
 }
 .myMenu p:not(:last-child)::after{
     content: "";
@@ -182,6 +193,7 @@ input::-webkit-search-results-decoration {
     font-weight: 500;
     font-family: 'Noto Sans KR', sans-serif;
     margin: 10px;
+    cursor: pointer;
 }
 
 .catagory .myStore img {

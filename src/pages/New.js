@@ -8,19 +8,16 @@ import styled from "styled-components";
 import "../css/New.css";
 const New = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-
   const title = React.useRef(null);
-  const price = React.useRef(null);
+  let price = React.useRef(null);
   const comment = React.useRef(null);
   const count = React.useRef(null);
   const img = React.useRef(null);
   const file_link_ref = React.useRef(null);
   const [titleLeng, setTitleLeng] = useState(0);
-  console.log(titleLeng);
   const [address, setAddress] = useState("지역설정안함");
-  const [item, setItem] = useState("중고상품");
-  const [trade, setTrade] = useState("교환불가");
+  const [item, setItem] = useState(false);
+  const [trade, setTrade] = useState(false);
 
   const addressClick = (e) => {
     setAddress(e.target.value);
@@ -68,7 +65,7 @@ const New = () => {
           count: parseInt(count.current.value),
         })
       );
-    }, 2000);
+    }, 2500);
   };
 
   return (
@@ -189,7 +186,7 @@ const New = () => {
               type="radio"
               id="중고상품"
               name="상태"
-              value={"중고상품"}
+              value={"false"}
               onClick={itemClick}
             />
             <label htmlFor="중고상품">중고상품</label>
@@ -198,7 +195,7 @@ const New = () => {
               type="radio"
               id="새상품"
               name="상태"
-              value={"새상품"}
+              value={"true"}
               onClick={itemClick}
             />
             <label htmlFor="새상품">새상품</label>
@@ -211,20 +208,20 @@ const New = () => {
               defaultChecked
               type="radio"
               id="교환불가"
-              name="교환"
-              value={"교환불가"}
+              name="exchange"
+              value={"false"}
               onClick={tradeClick}
             />
             <label htmlFor="교환불가">교환불가</label>
 
             <input
               type="radio"
-              id="a"
-              name="교환"
-              value={"교환가능"}
+              id="exchange"
+              name="exchange"
+              value={"true"}
               onClick={tradeClick}
             />
-            <label htmlFor="a">교환가능</label>
+            <label htmlFor="exchange">교환가능</label>
           </div>
         </section>
         <section className="priceSec">

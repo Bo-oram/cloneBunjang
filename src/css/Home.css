@@ -9,6 +9,10 @@
     position: relative;
     height:298px;
 }
+.mainBnContainer img {
+    width: 1024px;
+}
+
 .bnItem{    
     box-sizing: border-box;
     overflow: hidden;
@@ -71,7 +75,9 @@
 }
 .item{
     border: 1px solid rgb(238, 238, 238);
+    background-color: #fff;
     margin-bottom: 11px;
+    max-height: 274px;
 }
 .item .thumb{
     width: 100%;

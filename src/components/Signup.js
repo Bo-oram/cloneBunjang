@@ -6,18 +6,18 @@ import "../css/Signup.css";
 import appImg from "../img/appimg.svg";
 
 const Signup = ({ loginClose }) => {
-  const [location, setLocation] = useState("signIn");
+ const pwRef = useRef()
   const nickRef = useRef(null);
   const emailRef = useRef(null);
   const file_link_ref = useRef("");
   const img = useRef();
+  const [location, setLocation] = useState("signIn");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [userprofileUrl, setUserprofileUrl] = useState("");
   const [imageSrc, setImageSrc] = useState("");
-
   const reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
   const encodeFileToBase64 = (fileBlob) => {
@@ -54,9 +54,9 @@ const Signup = ({ loginClose }) => {
     if (location === "signIn") {
       return setLocation("signup");
     } else if (location === "signup") {
-      if(email === "" || password === "" || nickname === "" || nickname === "" || confirmpassword === "" || userprofileUrl === ""){
-        alert('모두 입력해주세요')
-      }else if (!reg_email.test(email)){
+      // if(!email ||!password || !nickname || !confirmpassword  || !file_link_ref.current.url){
+      //   window.alert('모두 입력해주세요')
+       if (!reg_email.test(email)){
         return alert('이메일 형식을 지켜주세요!')
       }else if(password !== confirmpassword){
         return alert('비밀번호가 일치하지 않아요!')
@@ -65,23 +65,23 @@ const Signup = ({ loginClose }) => {
           console.log("회원가입 요청");
           await axios
             .post("http://13.125.112.232/api/user/signup", userInfo)
-            .then((Response) => {
-              console.log(Response.data.errorMesssage);
-            })
             .catch(function (error) {
               let eMsg = error.response.data.errorMessage
               alert(eMsg)             
             });
           console.log(userInfo);
-        }, 1500);
+        }, 2800);
       }
     }
+    console.log(userInfo)
   }
 
   //로그인 요청 로직
   async function userLogin() {
     if (location === "signup") {
       setLocation("signIn");
+      pwRef.current.value = ""
+
     } else if (location === "signIn") {
       await axios
         .post(
@@ -148,6 +148,7 @@ const Signup = ({ loginClose }) => {
               <input
                 type="password"
                 placeholder="비밀번호(영문,숫자,특수문자포함 6글자 이상)"
+                ref={pwRef}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
