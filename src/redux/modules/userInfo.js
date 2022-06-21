@@ -12,22 +12,26 @@ const initialState = {
 
 
 export function userinfoLOAD(mypageUser_list) {
+  console.log(mypageUser_list);
     return { type: LOAD, mypageUser_list };
 }
 
 //미들웨어
 export const userinfoLoadSV = () => {
+  let token = localStorage.getItem("userToken")
     return async function (dispatch) {
-      await axios.get("http://0.0.0.0/api/user/mypage").then((response) => {
-        console.log(response);
-  
+      try{
         let mypageUser_list = [];
-        response.data.forEach((res) => {
-        mypageUser_list.push({...res});
-        console.log(mypageUser_list);
+        console.log(mypageUser_list,"으아아아아");
+        const {data} = await axios.get("http://13.125.112.232/api/user/mypage", {
+          headers: {Authorization: 'Bearer ' + token }
+          
+         });
+        mypageUser_list = {...data}
         dispatch(userinfoLOAD(mypageUser_list));
-        });
-      });
+      } catch(error){
+        console.error(error)
+      }
     };
   };
   
@@ -57,7 +61,7 @@ export const loginCheck = () => {
         Authorization: 'Bearer ' + token 
       }
      } ).then((response) => {
-      console.log(response);
+      // console.log(response);
     //어떤 스테이트 남길지 의논
     })
   }

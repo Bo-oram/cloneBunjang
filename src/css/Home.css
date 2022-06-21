@@ -99,7 +99,15 @@
     white-space: nowrap;
     overflow: hidden;
 }
-
+.item .prdInfo div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.item .prdInfo div .time {
+    color: rgb(136, 136, 136);
+    font-size: 12px;
+}
 .item .prdInfo .price {
     font-size: 16px;
     font-weight: 500;

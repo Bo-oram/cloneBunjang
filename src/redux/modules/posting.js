@@ -16,8 +16,8 @@ export function postAdd(post) {
 export const postUpload = (post) => {
     let token = localStorage.getItem("userToken")
     console.log(post);
-    return function (dispacth) {
-        axios.post("http://13.125.112.232/api/market", post,{
+    return async function (dispacth) {
+       await axios.post("http://13.125.112.232/market", post,{
             headers: {Authorization: 'Bearer ' + token }
            }).then((response) => {
             console.log(response.data);

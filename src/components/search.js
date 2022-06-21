@@ -10,16 +10,22 @@ const Search = () => {
     const parm = useParams()
     const dispatch = useDispatch()
     const searchItem_list = useSelector((state) => state.searchSV.list);
-    useEffect(() => {
-        dispatch(itemLoad(parm.text));
-    }, [dispatch, parm.text]);
     const [way, setWay] = useState("default")
+
+    console.log(way)
     const wayChange = (e) =>{
         setWay(e)
     }
+
     useEffect(() => {
         dispatch(itemLoad(parm.text, way));
     }, [dispatch, parm.text, way]);
+
+    useEffect(()=>{
+        setWay('default')
+    },[parm.text])
+
+    
 
     return (
         <>
@@ -41,7 +47,7 @@ const Search = () => {
                     </div>
                 </Minibox>
                 {searchItem_list.map((item, i) => (
-                    <div className="item" style={{width:"200px", height:"300px"}}>
+                    <div className="item" style={{width:"200px", height:"300px"}} key={i}>
                         <div className="thumb">
                             <img src={item.imageUrl} alt="" />
                         </div>

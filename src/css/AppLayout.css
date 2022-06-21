@@ -131,6 +131,7 @@ input::-webkit-search-results-decoration {
 .searchBtn{
     width: 16px;
     background-color: #00000000;
+    cursor: pointer;
 }
 .searchBtn img{
     width: 100%;

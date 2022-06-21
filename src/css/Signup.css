@@ -62,6 +62,7 @@
 .loginFrom label input::placeholder,
 .loginFrom label textarea::placeholder{
     color:gray;
+    font-size: 14px;
 }
 
 

@@ -19,7 +19,7 @@ export function searchLOAD(search) {
 export const itemLoad = (parm, way) => {
     // console.log(way)
     return  function (dispatch) {
-        axios.get(`http://13.125.112.232/api/market/${parm}/${way}`).then((response) => {
+        axios.get(`http://13.125.112.232/market/${parm}/${way}`).then((response) => {
             // console.log(response);
 
             let searchItem_list = [];

@@ -94,7 +94,7 @@ const Home = () => {
             return (
               <div className="item" key={idx}>
                 <div className="thumb">
-                  <img src={p.ImageUrl} alt="" />
+                  <img src={p.imageUrl} alt="" />
                 </div>
                 <div className="prdInfo">
                   <p className="prdTitle">

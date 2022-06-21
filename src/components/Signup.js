@@ -10,7 +10,7 @@ const Signup = ({ loginClose }) => {
   const nickRef = useRef(null);
   const emailRef = useRef(null);
   const file_link_ref = useRef("");
-  const img = useRef(null);
+  const img = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
@@ -32,8 +32,10 @@ const Signup = ({ loginClose }) => {
   };
   const fileUp = async () => {
     const uploadfile = await uploadBytes(
-      img === null ? null : ref(storage, `images/${img.current.files[0].name}`),
-      img.current.files[0]
+      img === null 
+      ? null 
+      : ref(storage, `images/${img.current.files[0].name}`),img.current.files[0]
+     
     );
     const file_url = await getDownloadURL(uploadfile.ref);
     file_link_ref.current = { url: file_url };
@@ -48,14 +50,13 @@ const Signup = ({ loginClose }) => {
     confirmpassword: confirmpassword,
     userprofileUrl: file_link_ref.current.url,
   };
-
   function userRegister() {
     if (location === "signIn") {
       return setLocation("signup");
     } else if (location === "signup") {
       if (!reg_email.test(email)){
         return alert('이메일 형식을 지켜주세요!')
-      }else if(!(password === confirmpassword)){
+      }else if(password !== confirmpassword){
         return alert('비밀번호가 일치하지 않아요!')
       }else{
         setTimeout(async () => {
@@ -63,13 +64,14 @@ const Signup = ({ loginClose }) => {
           await axios
             .post("http://13.125.112.232/api/user/signup", userInfo)
             .then((Response) => {
-              console.log(Response);
+              console.log(Response.data.errorMesssage);
             })
             .catch(function (error) {
-              console.log(error);
+              let eMsg = error.response.data.errorMessage
+              alert(eMsg)             
             });
           console.log(userInfo);
-        }, 2000);
+        }, 1500);
       }
     }
   }
@@ -87,15 +89,10 @@ const Signup = ({ loginClose }) => {
             email: email,
             password: password,
           }
-          // { withCredentials: true },
-          // { 'Content-Type': 'application/json'}
         )
         .then((response) => {
           localStorage.setItem("userToken", response.data.token);
           window.location.replace("/");
-          // if (response.data.result) {
-          //   sessionStorage.setItem("email");
-          // }
         });
     }
   }
@@ -144,8 +141,8 @@ const Signup = ({ loginClose }) => {
             </label>
             <label htmlFor="">
               <input
-                type="text"
-                placeholder="비밀번호를 입력해주세요"
+                type="password"
+                placeholder="비밀번호(영문,숫자,특수문자포함 6글자 이상)"
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -155,7 +152,7 @@ const Signup = ({ loginClose }) => {
               <>
                 <label htmlFor="">
                   <input
-                    type="text"
+                    type="password"
                     placeholder="비밀번호 재입력"
                     onChange={(e) => {
                       setConfirmpassword(e.target.value);

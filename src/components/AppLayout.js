@@ -1,4 +1,4 @@
-import React, { useState, useRef , useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -25,17 +25,15 @@ const AppLayout = ({ children }) => {
 
   const [tryLogin, setTryLogin] = useState(false);
   const [searchTarget, setSearchTarget] = useState("");
-  let searchTargetRef = useRef(null);
-  const [isLogin, setIsLogin] = useState("")
-  
+  const [isLogin, setIsLogin] = useState("");
 
-  useEffect(()=>{
-    if(localStorage.getItem('userToken')){
-      setIsLogin(true)
-    }else{
-      setIsLogin(false)
-    }   
-  },[isLogin])
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
 
   //검색 로직
   const search = async () => {
@@ -48,7 +46,7 @@ const AppLayout = ({ children }) => {
 
   //검색창 클리어
   const searchBarClear = () => {
-    searchTargetRef.current.value = "";
+    searchItem.current.value = "";
   };
 
   //로그인 모달 열기
@@ -57,17 +55,17 @@ const AppLayout = ({ children }) => {
   };
   //로그인 모달 닫기
   const loginClose = () => {
-    setTryLogin(false);    
+    setTryLogin(false);
   };
   //판매하기
-  const test=()=>{
-    if(isLogin === true){
-      navigate("/Product")
-    }else if(isLogin === false){
-      alert("로그인이 필요해요!"); setTryLogin(true)
+  const test = () => {
+    if (isLogin === true) {
+      navigate("/Product");
+    } else if (isLogin === false) {
+      alert("로그인이 필요해요!");
+      setTryLogin(true);
     }
-    
-  }
+  };
 
   return (
     <>
@@ -87,10 +85,14 @@ const AppLayout = ({ children }) => {
             <div className="rightMenu">
               {isLogin === true ? (
                 <div className="logout">
-                  <p onClick={()=>{
-                    localStorage.removeItem("userToken");
-                    window.location.replace('/')
-                  }}>로그아웃</p>
+                  <p
+                    onClick={() => {
+                      localStorage.removeItem("userToken");
+                      window.location.replace("/");
+                    }}
+                  >
+                    로그아웃
+                  </p>
                   <p>알림</p>
                   <p>내 상점</p>
                 </div>
@@ -127,20 +129,26 @@ const AppLayout = ({ children }) => {
                     }}
                   />
 
-                  <p className="btnClear" onClick={searchBarClear}>
-                    <img src={x} alt="" />
-                  </p>
+                  {searchTarget === "" ? (
+                    <p></p>                    
+                  ) : (
+                    <p className="btnClear" onClick={searchBarClear}>
+                      <img src={x} alt="" />
+                    </p>
+                  )}
 
-                  <button className="searchBtn" onClick={()=>{
-                    navigate(`/search/${searchItem.current.value}`);}}>
+                  <button
+                    className="searchBtn"
+                    onClick={() => {
+                      navigate(`/search/${searchItem.current.value}`);
+                    }}
+                  >
                     <img src={searchBtn} alt="" />
                   </button>
                 </div>
               </div>
               <div className="myMenu">
-                <p
-                  onClick={test}
-                >
+                <p onClick={test}>
                   <img src={headerIcon1} alt="" />
                   판매하기
                 </p>
