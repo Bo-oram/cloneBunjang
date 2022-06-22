@@ -27,7 +27,7 @@ export const prdListSlice = createSlice({
     },
     extraReducers: {
         [prdAll_list.pending]: (state) => {
-            console.log("호출중")
+            // console.log("호출중")
         },
         [prdAll_list.fulfilled]: (state, action) => {
             state.prdItem = action.payload

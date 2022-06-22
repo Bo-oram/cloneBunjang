@@ -25,6 +25,8 @@ const AppLayout = ({ children }) => {
   const [tryLogin, setTryLogin] = useState(false);
   const [searchTarget, setSearchTarget] = useState("");
   const [isLogin, setIsLogin] = useState("");
+  const [scrollY, setScrollY] = useState(0)
+  const [scrollActive, setScrollActive] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -49,7 +51,7 @@ const AppLayout = ({ children }) => {
     setTryLogin(false);
   };
   //로그인 
-   const login = () => {
+   const user_login = () => {
     setIsLogin(true)
   }
   //판매하기
@@ -81,8 +83,7 @@ const AppLayout = ({ children }) => {
     }
   };
 
-  const [scrollY, setScrollY] = useState(0)
-  const [scrollActive, setScrollActive] = useState(false)
+  
 
   function scrollEvent() {
     if(scrollY > 41){
@@ -320,7 +321,7 @@ const AppLayout = ({ children }) => {
             </div>
           </div>
         </footer>
-        {tryLogin === true ? <Signup loginClose={loginClose} login={login} /> : null}
+        {tryLogin === true ? <Signup loginClose={loginClose} user_login={user_login} /> : null}
       </div>
     </>
   );

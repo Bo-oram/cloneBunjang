@@ -1,14 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {  useEffect } from "react";
+import { useNavigate  } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { prdAll_list } from "../redux/modules/productSlice";
 import "../css/Home.css";
 import subBn from "../img/subBn.png";
 
 const Home = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   let allPrd = useSelector((state) => state.Product_.prdItem.Items);
   let prdlist = allPrd === undefined ? [] : allPrd;
-  console.log(prdlist);
 
   //api데이터 가져오기 실행
   useEffect(() => {
@@ -34,7 +35,7 @@ const Home = () => {
         <div className="prdContent">
           {prdlist.map((p, idx) => {
             return (
-              <div className="item" key={idx}>
+              <div className="item" key={idx} onClick={() => { navigate("/detail/" + p.itemId); }}>
                 <div className="thumb">
                   <img src={p.imageUrl} alt="" />
                 </div>

@@ -1,0 +1,43 @@
+input{border: 1px solid ;}
+.chatContainer{
+  height: 100vh;
+  display: flex;
+}
+.chatMenu, .chatBox{
+  width: 50%;
+}
+
+.chatBoxWrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.chatBoxTop{
+  height: 400px;
+  overflow: scroll;
+
+}
+
+.chatBoxBottom{
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chatMessageInput{
+  width: 80%;
+  height: 90px;
+  padding: 10px;
+
+}
+
+.chatSubmitButton{
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

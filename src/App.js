@@ -4,12 +4,14 @@ import { Route, Routes } from "react-router-dom";
 import Product from "./pages/Product";
 import {useDispatch} from "react-redux"
 import {prdAll_list} from "./redux/modules/productSlice"
+import { loginCheck } from "./redux/modules/userInfo";
 
+import Chat from "./socket/Chat";
 import Mypage from "./components/products"
 import New from "./pages/New";
 import Home from "./pages/Home";
 import Search from "./components/search";
-import { loginCheck } from "./redux/modules/userInfo";
+import Detail from "./pages/Detail";
 
 function App() {
   const dispatch = useDispatch()
@@ -40,6 +42,8 @@ function App() {
         <Route path="/Product" element={<Product />}>
           <Route path="new" element={<New />} />
         </Route>
+        <Route path="/chat"  element={<Chat />}/>
+        <Route path="/detail/:id" element={<Detail />} />
       </Routes>
     </AppLayout>
   );

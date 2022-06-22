@@ -12,7 +12,6 @@ const initialState = {
 
 
 export function userinfoLOAD(mypageUser_list) {
-  console.log(mypageUser_list);
     return { type: LOAD, mypageUser_list };
 }
 
@@ -22,7 +21,7 @@ export const userinfoLoadSV = () => {
     return async function (dispatch) {
       try{
         let mypageUser_list = [];
-        console.log(mypageUser_list,"으아아아아");
+        // console.log(mypageUser_list,"으아아아아");
         const {data} = await axios.get("http://13.125.112.232/api/user/mypage", {
           headers: {Authorization: 'Bearer ' + token }
           
@@ -35,18 +34,17 @@ export const userinfoLoadSV = () => {
     };
   };
   
-export const changeNicname = (nickname) => {
+export const changeNicname = (changenickname) => {
   let token = localStorage.getItem("userToken");
-  // const username = {username: nickname}
   // console.log(nickname);
   return async function (dispatch) {
     try {
-      const {data} = await axios.put("http://13.125.112.232/api/user/mypage/nickname",nickname,{
+      const {data} = await axios.put("http://13.125.112.232/api/user/mypage/nickname",{nickname: changenickname},{
       headers: {Authorization: 'Bearer ' + token }
      })
-     console.log(data);
+     window.location.reload()
     } catch (error) {
-      console.log(error)
+      window.alert(error.response.data.errorMessage)
     }
     
      
@@ -58,11 +56,17 @@ export const changeNicname = (nickname) => {
 }
 
 export const changeComment = (info) => {
+  let token = localStorage.getItem("userToken");
   return async function (dispatch) {
-    await axios.put("http://13.125.112.232/api/user/mypage/info", info).then((response) => {
-
-    //어떤 스테이트 남길지 의논
-    })
+    try{
+       await axios.put("http://13.125.112.232/api/user/mypage/info", {userInfo:info},{
+      headers: {Authorization: 'Bearer ' + token }
+     })
+     window.location.reload()
+    } catch (error){
+      window.alert("수정실패")
+    }
+   
   }
 }
 
@@ -73,9 +77,9 @@ export const loginCheck = () => {
       headers: {
         Authorization: 'Bearer ' + token 
       }
-     } ).then((response) => {
-      // localStorage.setItem("userId", response.data.userId);
-    //어떤 스테이트 남길지 의논
+     } ).then(({data}) => {
+      const mypageUser_list = {...data}
+        dispatch(userinfoLOAD(mypageUser_list));
     })
   }
 }
