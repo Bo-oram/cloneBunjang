@@ -13,10 +13,12 @@ import {
   changeNicname,
   userinfoLoadSV,
 } from "../redux/modules/userInfo";
+import "../css/myPage.css";
 
 function Mypage(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [myPrd , setmyPrd] = useState()
 
   React.useEffect(() => {
     dispatch(userinfoLoadSV());
@@ -30,7 +32,7 @@ function Mypage(props) {
     ? []
     : mypage_list.mypostDNO.map((row) => row.itemId);
 
-  let a = [];
+  let a = useState([]);
   post.map((p, i) => {
     return mypageListID.map((m, i) => {
       return p.itemId === m && a.push(p);
@@ -72,17 +74,102 @@ function Mypage(props) {
     dispatch(changeComment(changeCom.current.value));
   };
 
+  const [subMenu , setSubMenu] =useState("A")
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {mylist.map((item, index) => (
+      <div>
+        <div className="myContainer">
+          {mylist.map((item, index) => {
+            console.log(item);
+            return (
+              <>
+                <div className="conBox1">
+                  <Mybox src={item.userprofileUrl} />
+                </div>
+                <div className="storInfo">
+                  <div className="titleBox">
+                    <div>
+                      <p className="storeTitle">{item.nickname}</p>
+                      <button
+                        onClick={() => {
+                          clickevent();
+                        }}
+                      >
+                        상점명 수정
+                      </button>
+                    </div>
+                    <div>
+                    <input
+                      ref={changeNIC}
+                      type="text"
+                      placeholder="닉네임변경"
+                      style={{ display: unclick }}
+                    ></input>
+                    <button
+                      style={{ display: unclick }}
+                      onClick={() => {
+                        unclickevent();
+                        changeInfo();
+                      }}
+                    >
+                      수정
+                    </button>
+                    </div>
+        
+                  </div>
+                  <div>
+                  <Insidebox>
+                  <div style={{ marginRight: "20px" }}>
+                    <Icon src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAfBJREFUSA3tU79rFFEQntkcuBesDF5pdyRFrjNaiJBgERA0pEh1P4yCC4rWFiH/gIWN1W4iIclZeKRIlS6gSZkUQQsbOwtBwUp2n4f3xm827LK32eICd90NHDvvm+/N9+bHMcGioHEkInfVH7Yx86ey155n2WlWTCQ/hMQZtojmY6ae67gVxxhaGpWIConQhBFzH1XYZQVGaWL5obbr3ihFNDcTLVLoN06KhICfdTdbt/IxE9SfG7/xLI93/ebtKGi+y+N6DoPGTwfD+iNbq26WIAcvr+AV1Z6V6SyuvhDVLNMFvEdSw6xrF/jIzUKfIcR7pvvvjXQ6E3EiEY6+/36NS5OY3yvZbk0ll8PNR3dI+DEe8eSvvzqT4JHfugF/HZOfMxtNL8E1p+ZWDdyJS3vLIovYxVM8WV82m5CB/QL2EcRrxDKvW6QxJg5R3eG5Lwvwr2bunID/DcI3QfxQ9t6vlzSIsr5YkRcIVFNy4ohch7uCRHHfUjiumB7k4PMwKgN/Tg8lLu3rdyR/Uk2ct7FQviMDn+NlyLOxUW12+DiLW2v95Ix1PcavnZzzX7Gyhs3VlU+tWAgi7tPdIGXBCf16KoR1/+p6/fE+blD3wOkTGi9DtkOX8gtnpIPvm8mlUhaTxzMq7ssA6Lh1AzSpmPIfjjO10v2iE7IAAAAASUVORK5CYII=" />
+                    <span>상점오픈일 1일</span>
+                  </div>
+                  <div style={{ marginRight: "20px" }}>
+                    <Icon src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAQBJREFUSA1jZCASNOz/z3L34Z1aBkaGZLCW/wxzleVVmhscGf8QYwQLMYpAakCW/GdgqGMAElBQBxQDMethAvhoJnySKHIwnyALYhNDlkdiE28RkiZymMRbBIwTDAuwiWEogggQHUegiAfHCSy4oIkBh7kjQJgxdtHtUIZ/jJP+M/yXoIV/GRkYXzAw/c9joqUlIIeDPQD0CPGpjkLvMoG8BfYehQbh0g4LOkZcCkDiMQtuIwocfAqhcksSVHGaR8egI8Kl1FAy6iOyQ5HoQhVkA3qqIiVVjsYR2XE0woIOubBFZsPCD1kMmQ2TR6bxBx20ZAcbAmQjawSzCckjaQAAJL9HBV3GwxoAAAAASUVORK5CYII=" />
+                    <span>상점방문수 7명</span>
+                  </div>
+                  <div style={{ marginRight: "20px" }}>
+                    <Icon src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAl1JREFUSA21Vc9PE1EQnnktW2yIFy9GiCduSki4QjSGwA3qj248q/HCwQtnwg//CxKrMd4WMO2RQrxwkbQmBI0XExMxqQk3TTAt7Q4zu91l231btrq85KWz33wz39v3vn0F6HOYO7nHMvssA+ynwPxgXrebjc9So9LGbeue9StuvYpLFJ592lgHomsynbiP4thC+XLuCQDN8Rb8limxi8VTi7V1Ztm8SVQ/JICriPhUWhNRwRHFzJg1Y/24SO7CN+KGSNAotEVKGzPF1zJZsCSYk2POfwvld+8vsNg0dzq+klXPvYYSCyY54Xh41G/PlbDLRu3T+gEXZ1UKH1rTxffBRuZu7oHdoi3GTtRAZpxd+C2YD8aRW7dCK4pF3jA5y9v0tltEmggmOeEIV2oE143IxJedT4tcMAmARwjGC12xYG4Oj4TbrtFSMV+e/0kEw9psYiDWFBDuJ9YvohEiVWXrPkbkk4QrSim69DcCTFXV0CBUENBOcvndvQYNrKrCVOkPXyhfu5OhZ4SmAlxWqcyIMzlmyzVDvBCAtXd3tmppB0c2BNGtECcAKMKX1mxxLQCtmds5sIFWA1goFCMI6H5HGMMQKeNVqIsOC5Gg4gvxfXV5hmAj+EJj6YlDvkr+hhcTQFqNZ4EnN9RhXSQxgkD+pfpoe36Pn/nKiRhiBj4n8LaLRWykJSBwz1lbhrXN2eINSfkkfqN93sJoIW7oHHyrfn74/IfUa3hGEI5/qWIcQ/Tqqs85RugQggEjeUO0jdAhZN21vvOBHesX9m+oZ4QOIaeVfLiJDfdG8NqdARu11RN7gt5lAAAAAElFTkSuQmCC" />
+                    <span>상품판매 11회</span>
+                  </div>
+                  <div style={{ marginRight: "20px" }}>
+                    <Icon src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAQlJREFUSA1jZEACoceOcf5k+HqV4T+DIpIwnMnEzGyywcLpLEgg4MQ+439//56BSyIzGBnuszNwa6+2svoOE2aCMUD0r/9fq3FZgqyOIBvoULBZSArhFvmd3qfOwMhQiiRHGRNoFthMqClwixh//536/z8DG2WmI3SDzAKZCRMBWxRwbG8kUMIZJkgtGmQmyGyQeUzRJ07w/WP430ctw9HNAZkNsoPly9+vLQwM/yXQFVCN//+/BMgOFkZWpnmM/xgXEmOwGAvfdZg6EPsVwycTGB8vzcT4F6/8kJRkDDi2J40eLmf59///THpYBM+wtLZs1CKyQ3g06EaDDh4Co4kBHhSkMoZf0AEAMN1RWGgFcjgAAAAASUVORK5CYII=" />
+                    <span>택배발송 11회</span>
+                  </div>
+                </Insidebox>
+                  </div>
+        
+                </div>
+                
+              </>
+            );
+          })}
+        </div>
+        <div className="subMenu">
+                    <ul>
+                      <li onClick={()=>{setSubMenu("A")}} className={subMenu === "A" && "active" }>상품</li>
+                      <li onClick={()=>{setSubMenu("B")}} className={subMenu === "B" && "active" }>상점문의</li>
+                      <li onClick={()=>{setSubMenu("C")}} className={subMenu === "C" && "active" }>찜</li>
+                      <li onClick={()=>{setSubMenu("D")}} className={subMenu === "D" && "active" }>상점후기</li>
+                      <li onClick={()=>{setSubMenu("E")}} className={subMenu === "E" && "active" }>팔로잉</li>
+                      <li onClick={()=>{setSubMenu("F")}} className={subMenu === "F" && "active" }>팔로워</li>
+                    </ul>
+                    <div className="subMenuContent">
+                      {
+                        subMenu === "A" &&<Product a={a} /> ||
+                        subMenu === "B" &&<Comments /> ||
+                        subMenu === "C" &&<Favorites /> ||
+                        subMenu === "D" &&<Followers /> ||
+                        subMenu === "E" &&<Followings /> ||
+                        subMenu === "F" &&<Reviews /> 
+                      }
+                    
+                      <p className="subMenuContentTitle">
+                      </p>
+                    </div>
+                  </div>
+      </div>
+
+      {/* {mylist.map((item, index) => (
           <div
             key={index}
             style={{
@@ -160,9 +247,9 @@ function Mypage(props) {
               </div>
             </Sidebox>
           </div>
-        ))}
+        ))} */}
 
-        <div style={{ marginTop: "20px", marginLeft: "-40px" }}>
+      {/* <div style={{ marginTop: "20px", marginLeft: "-40px" }}>
           <ul style={{ display: "flex" }}>
             <List
               style={{ borderLeft: "1px solid rgb(238, 238, 238)" }}
@@ -218,7 +305,7 @@ function Mypage(props) {
         <Route path="followers" element={<Followers />} />
         <Route path="followings" element={<Followings />} />
         <Route path="reviews" element={<Reviews />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 }
@@ -244,6 +331,11 @@ const Insidebox = styled.div`
   margin-bottom: 150px;
   flex-shrink: 0;
   margin-right: 30px;
+  span{
+    margin-left:5px;
+    color:#888;
+    font-size:13px;
+  }
 `;
 
 const Mybox = styled.img`

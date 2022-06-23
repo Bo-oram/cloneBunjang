@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { loginCheck } from "../redux/modules/userInfo";
+import { loginCheck } from "../redux/modules/loginck";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
@@ -54,16 +54,27 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
-    const agetConversations = async () => {
+    const getConversations = async () => {
+      let a = []; 
       try {
-        const res = await axios.get("서버주소?" + user);
-        setConversations(res.data);
+        const response = await axios.get(`http://13.125.112.232/conversations/${user}`)
+        a.push(response.data)
+        setConversations(a);
       } catch (e) {
         console.log(e);
       }
     };
-    agetConversations();
+    getConversations()
   }, [user]);
+
+
+// const www = !conversations ? [] :conversations; 
+  
+    
+  
+ 
+ 
+
 
 
 
@@ -87,7 +98,7 @@ export default function Chat() {
   const chatList = async () => {
     try {
       const response = await axios.get(
-        `http://13.125.112.232/conversations/find/:${state_.state.userId}/:${user}`
+        `http://13.125.112.232/conversations/find/${state_.state.userId}/${user}`
       );
       if(response.data === null){
         addChatList();
@@ -124,7 +135,7 @@ export default function Chat() {
                 className="chatMessageInput"
                 placeholder="여기에 채팅을 써보렴"
               ></textarea>
-              <button className="chatSubmitButton" onClick={()=>{chatList()}}>
+              <button className="chatSubmitButton" onClick={()=>{chatList();}}>
                 보내기
               </button>
             </div>

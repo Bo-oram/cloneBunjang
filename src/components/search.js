@@ -10,14 +10,20 @@ const Search = () => {
   const parm = useParams();
   const dispatch = useDispatch();
   const searchItem_list = useSelector((state) => state.searchSV.list);
+
+  const navigate = useNavigate();
   const [way, setWay] = useState("default");
   const prdCount = searchItem_list.length
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
+  console.log(searchItem_list);
   const wayChange = (e) => {
     setWay(e);
   };
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
 
   useEffect(() => {
     dispatch(itemLoad(parm.text, way));
@@ -76,6 +82,7 @@ const Search = () => {
                     className="item"
                     style={{ width: "200px", height: "300px" }}
                     key={i}
+                    onClick={()=>{navigate("/detail/" + item.itemId)}}
                   >
                     <div className="thumb">
                       <img src={item.imageUrl} alt="" />

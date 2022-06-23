@@ -10,6 +10,7 @@ const Home = () => {
   const dispatch = useDispatch();
   let allPrd = useSelector((state) => state.Product_.prdItem.Items);
   let prdlist = allPrd === undefined ? [] : allPrd;
+  console.log(prdlist)
 
   //api데이터 가져오기 실행
   useEffect(() => {

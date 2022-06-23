@@ -6,8 +6,8 @@ import "../css/Signup.css";
 import appImg from "../img/appimg.svg";
 import { async } from "@firebase/util";
 
-const Signup = ({ loginClose }) => {
- const pwRef = useRef()
+const Signup = ({ loginClose, user_login }) => {
+  const pwRef = useRef();
   const nickRef = useRef(null);
   const emailRef = useRef(null);
   const file_link_ref = useRef("");
@@ -19,21 +19,21 @@ const Signup = ({ loginClose }) => {
   const [confirmpassword, setConfirmpassword] = useState("");
   const [userprofileUrl, setUserprofileUrl] = useState("");
   const [imageSrc, setImageSrc] = useState("");
-  const reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+  const reg_email =
+    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
-  
   const fileUp = async (e) => {
     const uploadfile = await uploadBytes(
-      e.target.files === null 
-      ? null 
-      : ref(storage, `images/${img.current.files[0].name}`),e.target.files[0]
-     
+      e.target.files === null
+        ? null
+        : ref(storage, `images/${img.current.files[0].name}`),
+      e.target.files[0]
     );
     const file_url = await getDownloadURL(uploadfile.ref);
     file_link_ref.current = { url: file_url };
     setUserprofileUrl(file_link_ref.current.url);
   };
-  
+
   //회원가입 요청 로직
   const userInfo = {
     email: email,
@@ -42,50 +42,65 @@ const Signup = ({ loginClose }) => {
     confirmpassword: confirmpassword,
     userprofileUrl: userprofileUrl,
   };
-console.log(userprofileUrl)
-  async function userRegister () {
+  console.log(userprofileUrl);
+  async function userRegister() {
     if (location === "signIn") {
       return setLocation("signup");
     } else if (location === "signup") {
-      if(!email ||!password || !nickname || !confirmpassword  || !img.current.value){
-        window.alert('모두 입력해주세요')
+      if (
+        !email ||
+        !password ||
+        !nickname ||
+        !confirmpassword ||
+        !img.current.value
+      ) {
+        return window.alert("모두 입력해주세요");
+      }
+      if (!reg_email.test(email)) {
+        return alert("이메일 형식을 지켜주세요!");
+      } else if (password !== confirmpassword) {
+        return alert("비밀번호가 일치하지 않아요!");
+      } else {
+        console.log("회원가입 요청");
+        try {
+          const { data } = await axios.post(
+            "http://13.125.112.232/api/user/signup",
+            userInfo
+          );
+          console.log(data);
+          alert("회원가입 성공!")
+          setLocation("signIn");
+          pwRef.current.value = "";
+        } catch (error) {
+          alert(error.response.data.errorMessage);
+        }
+      }
     }
-       if (!reg_email.test(email)){
-        return alert('이메일 형식을 지켜주세요!')
-      }else if(password !== confirmpassword){
-        return alert('비밀번호가 일치하지 않아요!')
-      }else{
-          console.log("회원가입 요청");
-          try{
-            const {data}  = await axios
-            .post("http://13.125.112.232/api/user/signup", userInfo);
-            setLocation("signIn");
-          }catch(error){
-            alert(error.response.data.errorMessage)
-          }
-    }
-    console.log(userInfo)
   }
-}
 
-  const userLogin = async()=>{
+  const userLogin = async () => {
     if (location === "signup") {
       setLocation("signIn");
-      pwRef.current.value = ""
+      pwRef.current.value = "";
     } else if (location === "signIn") {
-        try {
-       const {data} =  await axios.post("http://13.125.112.232/api/user/login",
+      try {
+        const { data } = await axios.post(
+          "http://13.125.112.232/api/user/login",
           {
             email: email,
             password: password,
-          });
-          console.log(data)
-         localStorage.setItem("userToken", data.token)
-        } catch(error){
-          window.alert(error) 
-        }
+          }
+        );
+        console.log(data);
+        localStorage.setItem("userToken", data.token);
+        alert("로그인 성공!")
+        loginClose();
+        user_login();
+      } catch (error) {
+        window.alert(error);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (location === "signup") {
@@ -154,7 +169,7 @@ console.log(userprofileUrl)
                   <input
                     type="file"
                     onChange={(e) => {
-                     fileUp(e)
+                      fileUp(e);
                     }}
                     accept="image/jpg, image/jpeg, image/png"
                     ref={img}

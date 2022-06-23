@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Product from "./pages/Product";
 import {useDispatch} from "react-redux"
 import {prdAll_list} from "./redux/modules/productSlice"
-import { loginCheck } from "./redux/modules/userInfo";
+import { loginCheck } from "./redux/modules/loginck";
 
 import Chat from "./socket/Chat";
 import Mypage from "./components/products"

@@ -5,6 +5,8 @@ import axios from "axios";
 import "../css/detail.css";
 
 const Detail = () => {
+
+  
   const param = useParams();
   const navigate = useNavigate();
   const [detailInfo, setDetailInfo] = useState("info1");
@@ -29,6 +31,11 @@ const Detail = () => {
       _id: "",
     },
   });
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+
 
   useEffect(() => {
     const detail = async () => {

@@ -6,10 +6,12 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../shard/firebase";
 import styled from "styled-components";
 import "../css/New.css";
+import { useEffect } from "react";
 const New = () => {
   const dispatch = useDispatch();
   const title = React.useRef(null);
-  let price = React.useRef(null);
+  const navigate = useNavigate()
+  let price = React.useRef();
   const comment = React.useRef(null);
   const count = React.useRef(null);
   const img = React.useRef(null);
@@ -18,6 +20,8 @@ const New = () => {
   const [address, setAddress] = useState("지역설정안함");
   const [item, setItem] = useState(false);
   const [trade, setTrade] = useState(false);
+  const [prdPrice, setPrdPrice] = useState("")
+
 
   const addressClick = (e) => {
     setAddress(e.target.value);
@@ -42,6 +46,20 @@ const New = () => {
     });
   };
 
+  const priceCheck = () => {
+    if(prdPrice === ""){
+      return null
+    }else if(!parseInt(prdPrice)){
+      alert("숫자만!!!!!!!!!!!!!!!!")
+      setPrdPrice("")
+    }
+
+  }
+
+  useEffect(()=>{
+    priceCheck()
+  },[prdPrice, setPrdPrice])
+
   const fileUp = async () => {
     const uploadfile = await uploadBytes(
       ref(storage, `images/${img.current.files[0].name}`),
@@ -52,7 +70,6 @@ const New = () => {
   };
 
   const addPost = () => {
-    window.setTimeout(  () => {
       dispatch(
         postUpload({
           imageUrl: file_link_ref.current.url,
@@ -65,7 +82,7 @@ const New = () => {
           count: parseInt(count.current.value),
         })
       );
-    }, 2500);
+      navigate('/')
   };
 
   return (
@@ -97,6 +114,7 @@ const New = () => {
               ref={img}
               onChange={(e) => {
                 encodeFileToBase64(e.target.files[0]);
+                fileUp(e);
               }}
               accept="image/jpg, image/jpeg, image/png"
             />
@@ -231,6 +249,8 @@ const New = () => {
               <input
                 ref={price}
                 type="text"
+                value={prdPrice}
+                onChange={(e)=>{setPrdPrice(e.target.value)}}
                 placeholder="숫자만 입력해주세요."
               />
             </div>
@@ -262,7 +282,6 @@ const New = () => {
         <div>
           <button
             onClick={() => {
-              fileUp();
               addPost();
             }}
           >

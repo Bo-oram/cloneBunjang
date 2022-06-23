@@ -8,29 +8,30 @@ export default function Conversation({ conversation, currentUser }) {
 
 
   useEffect(() => {
-    const friendId = conversation.find((m) => m === currentUser.id);
+    let friend_id = conversation.map((f) => {
+      return f.members.find((m) => m !== currentUser);
+    });
+
 
     const getUser = async () => {
       try {
-        const res = await axios("유저 얻어오는 주소인갑?userId=" + friendId);
+        const res = await axios(
+          'http://13.125.112.232/api/user?userId=' + friend_id);
+        console.log(res.data);
         setUser(res.data)
-
       } catch (e) {
         console.log(e);
       }
     };
-  }, [conversation, currentUser]);
+    getUser();
+  }, [currentUser, conversation]);
 
   return (
     <div>
       <div className="conversation">
-        <img
-          className="conversationImg"
-          src={user.img}
-          //src = {유저 프로필 이미지가 있다면 ? 프로필 이미지 : 아니면 기본 이미지}
-          alt=""
-        />
-        <span className="conversationName">{user.username}</span>
+        {
+          
+        }
       </div>
     </div>
   );
