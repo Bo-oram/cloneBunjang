@@ -1,0 +1,136 @@
+.detailContainer{
+    width: 1024px;
+    margin:auto;
+}
+.detailMain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding:30px 0;
+}
+.detailThumbnail {
+    width: 430px;
+    height: 430px;
+    margin-right: 40px;
+}
+.detailThumbnail img {
+    width: 100%;
+    height: 100%;
+}
+.detailCon{
+    position: relative;
+
+}
+.titleBox{
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    width: 100%;
+}
+.detailTitle{
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.detailPrice{
+    font-size: 40px;
+    font-weight: 500;
+}
+.detailPrice span {
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.infoBox li{
+    margin-bottom: 25px;
+    line-height: 1;
+}
+
+.infoBox li span{
+    font-size: 14px;
+    display: inline-block;
+
+}
+.infoBox li span:first-child{
+    width: 75px;
+    padding-left: 15px;
+    color: rgb(153, 153, 153);
+    position: relative;
+    
+}
+.infoBox li span:first-child::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    /* transform: translate(0, -50%); */
+    left: 6px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color:rgb(204, 204, 204) ;    
+}
+
+.detailBtnArea {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr) ;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+}
+.detailBtnArea button{
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    width: 32%;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+}
+.detailBtnArea button:nth-child(1){background-color: #ccc;}
+.detailBtnArea button:nth-child(2){background-color: rgb(255, 164, 37);}
+.detailBtnArea button:nth-child(3){background-color: rgb(247, 0, 0);}
+
+.detailContentBottom{
+    width: 1024px;
+}
+.detailContentBottom ul{
+    display: flex;
+}
+.detailContentBottom ul li:first-child{
+    border-left: 1px solid rgb(238, 238, 238);
+}
+.detailContentBottom ul li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 50px;
+    /* font-size: 14px; */
+    border-top: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(33, 33, 33);
+    background: rgb(250, 250, 250);
+}
+.detailContentBottom ul li.active{
+    background-color: #fff;
+    border-top: 1px solid rgb(33, 33, 33);
+    border-right: 1px solid rgb(33, 33, 33);
+    border-left: 1px solid rgb(33, 33, 33);
+    border-bottom:1px solid #fff
+
+}
+
+.infoMenu div p{
+    font-size: 18px;
+    padding: 48px 0px 16px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+
+}
+.infoMenu div div{
+    white-space: pre-wrap;
+    margin: 40px 0px;
+    line-height: 1.5;
+}

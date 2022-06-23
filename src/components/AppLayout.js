@@ -18,6 +18,7 @@ import menu from "../img/menu.svg";
 
 //컨포넌트
 import Signup from "./Signup";
+import Qick from "./QickMenu"
 
 const AppLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -113,6 +114,7 @@ const AppLayout = ({ children }) => {
   return (
     <>
       <div className="wrap">
+        <Qick />
         <div className="miniMenuBar">
           <div className="miniMenu">
             <div className="leftMenu">

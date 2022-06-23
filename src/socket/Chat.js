@@ -16,11 +16,9 @@ export default function Chat() {
   const [chats, setchats] = useState([]);
   const [Msg, setMessage] = useState("");
   const [socket, setSocket] = useState(io("ws://13.125.112.232:8900"));
-  const state_ = location
+  const state_ = location;
 
-  console.log(state_.state.userId)
-
-
+  console.log(state_.state.userId);
 
   useEffect(() => {
     setSocket(io("ws://13.125.112.232:8900"));
@@ -47,7 +45,7 @@ export default function Chat() {
 
   //유저인증이... 일단 me로 불러와 두었음
   const user = useSelector((state) => state.userInfo.list.userId);
-  console.log(user)
+  console.log(user);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -67,21 +65,39 @@ export default function Chat() {
     agetConversations();
   }, [user]);
 
-   
+
+
+  const addChatList = async () => {
+    try {
+      const response = await axios.post(
+        `http://13.125.112.232/conversations/`,
+        {
+          senderId: user,
+          receiverId: state_.state.userId,
+        }
+      );
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
 
 
   const chatList = async () => {
-    try{      
-      const response = await axios.get(`http://13.125.112.232/conversations/find/:${state_.state.userId}/:${user}`);
-      response.data === null && addChatList()
-    }catch(e){
-      console.log(e)
-    }   
-    
-  }
-  const addChatList = async () => {
+    try {
+      const response = await axios.get(
+        `http://13.125.112.232/conversations/find/:${state_.state.userId}/:${user}`
+      );
+      if(response.data === null){
+        addChatList();
+      }
+       console.log(response.data)
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  }
 
   
 
@@ -108,7 +124,9 @@ export default function Chat() {
                 className="chatMessageInput"
                 placeholder="여기에 채팅을 써보렴"
               ></textarea>
-              <button className="chatSubmitButton" onClick={chatList}>보내기</button>
+              <button className="chatSubmitButton" onClick={()=>{chatList()}}>
+                보내기
+              </button>
             </div>
           </div>
         </div>
